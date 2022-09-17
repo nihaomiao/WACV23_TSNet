@@ -21,6 +21,10 @@ Some generated video results on Youtube-dance dataset.
 <img src="sup-mat/pose2.gif" width="250" height="342"/>
 </div>
 
+Dependencies
+----
+Python 3.7.10, Pytorch 1.10.2, etc.
+
 Quick Start
 ----
 
