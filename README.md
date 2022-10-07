@@ -1,7 +1,7 @@
 TS-Net
 ====
 
-The pytorch implementation of our WACV23 paper "Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis".
+The pytorch implementation of our WACV23 paper "[Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis](https://arxiv.org/abs/2210.01559)".
 
 <div align=center><img src="architecture.png" width="787px" height="306px"/></div>
 
@@ -87,8 +87,21 @@ The architecture of TS-Net
 
 Citing TS-Net
 ----
-TODO
+If you find our approaches useful in your research, please consider citing:
+```
+@misc{https://doi.org/10.48550/arxiv.2210.01559,
+  doi = {10.48550/ARXIV.2210.01559},
+  url = {https://arxiv.org/abs/2210.01559},
+  author = {Ni, Haomiao and Liu, Yihao and Huang, Sharon X. and Xue, Yuan},
+  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+```
+For questions with the code, please feel free to open an issue or contact me: homerhm.ni@gmail.com
 
 Acknowledgement
 ----
-We borrows some codes from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD), [vid2vid](https://github.com/NVIDIA/vid2vid), and [fs-vid2vid](https://github.com/NVlabs/few-shot-vid2vid).
+Part of our code was borrowed from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD), [vid2vid](https://github.com/NVIDIA/vid2vid), and [fs-vid2vid](https://github.com/NVlabs/few-shot-vid2vid). We thank the authors of these repositories for their valuable implementations.
