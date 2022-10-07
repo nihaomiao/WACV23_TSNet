@@ -1,7 +1,7 @@
 TS-Net
 ====
 
-The pytorch implementation of our WACV23 paper "[Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis](https://arxiv.org/abs/2210.01559)".
+The pytorch implementation of our WACV23 paper [Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis](https://arxiv.org/abs/2210.01559).
 
 <div align=center><img src="architecture.png" width="787px" height="306px"/></div>
 
