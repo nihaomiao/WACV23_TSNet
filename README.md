@@ -89,15 +89,11 @@ Citing TS-Net
 ----
 If you find our approaches useful in your research, please consider citing:
 ```
-@misc{https://doi.org/10.48550/arxiv.2210.01559,
-  doi = {10.48550/ARXIV.2210.01559},
-  url = {https://arxiv.org/abs/2210.01559},
-  author = {Ni, Haomiao and Liu, Yihao and Huang, Sharon X. and Xue, Yuan},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {arXiv.org perpetual, non-exclusive license}
+@article{ni2022cross,
+  title={Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis},
+  author={Ni, Haomiao and Liu, Yihao and Huang, Sharon X and Xue, Yuan},
+  journal={arXiv preprint arXiv:2210.01559},
+  year={2022}
 }
 ```
 For questions with the code, please feel free to open an issue or contact me: homerhm.ni@gmail.com
