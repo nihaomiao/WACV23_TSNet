@@ -79,11 +79,13 @@ model.optimize_parameters()
 
 TODO
 ----
-The complete training and testing of TS-Net and upload pretrained models
+The testing demo of TS-Net and upload pretrained models
 
 DONE
 ----
-The architecture of TS-Net
+The architecture of TS-Net.
+
+The complete training of TS-Net.
 
 Citing TS-Net
 ----
