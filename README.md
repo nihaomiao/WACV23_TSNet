@@ -91,11 +91,13 @@ Citing TS-Net
 ----
 If you find our approaches useful in your research, please consider citing:
 ```
-@article{ni2022cross,
-  title={Cross-identity Video Motion Retargeting with Joint Transformation and Synthesis},
-  author={Ni, Haomiao and Liu, Yihao and Huang, Sharon X and Xue, Yuan},
-  journal={arXiv preprint arXiv:2210.01559},
-  year={2022}
+@InProceedings{Ni_2023_WACV,
+    author    = {Ni, Haomiao and Liu, Yihao and Huang, Sharon X. and Xue, Yuan},
+    title     = {Cross-Identity Video Motion Retargeting With Joint Transformation and Synthesis},
+    booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+    month     = {January},
+    year      = {2023},
+    pages     = {412-422}
 }
 ```
 For questions with the code, please feel free to open an issue or contact me: homerhm.ni@gmail.com
