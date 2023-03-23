@@ -55,7 +55,7 @@ Note that our models are only trained on less than 200 short videos. So they are
 Training TS-Net
 ----
 
-The following codes show a toy example about how to train TS-Net.
+The following codes show a toy example about how to train TS-Net. The complete training framework can refer to ``train_face.py`` and ``train_pose.py``.
 ```python
 # this code will show a toy example about how to train our model
 import torch
