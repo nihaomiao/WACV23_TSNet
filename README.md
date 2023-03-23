@@ -5,6 +5,10 @@ The pytorch implementation of our WACV23 paper [Cross-identity Video Motion Reta
 
 <div align=center><img src="architecture.png" width="787px" height="306px"/></div>
 
+Updates
+-----
+[Updated on 03/22/2023] Released a testing demo for face dataset.
+
 Example videos
 ----
 Some generated video results on FaceForensics dataset.
@@ -77,15 +81,19 @@ model.set_train_input(src_img_list=src_img_batch_list,
 model.optimize_parameters()
 ```
 
-TODO
-----
-The testing demo of TS-Net and upload pretrained models
+Pretrained Models
+------
+|Dataset|Link (Google Drive)|
+|------|-----|
+|FaceForensics|https://drive.google.com/file/d/19BlI2XeogcOmPT4MALzqesRfpGu9E8Py/view?usp=share_link|
 
-DONE
-----
-The architecture of TS-Net.
+Demo
+-------
+**FaceForensics**
+1. Install required dependencies. Here we use Python 3.7.10, Pytorch 1.10.2, etc.
+2. Set the paths in the code files if needed. The pretrained models for FaceForensics dataset have released.
+3. Run `python -u demo/demo_face.py`
 
-The complete training of TS-Net.
 
 Citing TS-Net
 ----
