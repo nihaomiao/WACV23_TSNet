@@ -94,6 +94,7 @@ Demo
 2. Set the paths in the code files if needed. The pretrained models for FaceForensics dataset have released.
 3. Run `python -u demo/demo_face.py`
 
+Note that our models are only trained on less than 200 short videos. So they are still hard to be generalized to *unseen* subjects. The subject videos of example videos we shown are *seen*, which are from training dataset (Driving videos are still unseen). If you want to apply our model to new subject, please do some fine-tuning. This can be achieved by using our training code to train TS-Net on the new subject with a small learning rate. 
 
 Citing TS-Net
 ----
