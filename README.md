@@ -31,7 +31,28 @@ Dependencies
 ----
 Python 3.7.10, Pytorch 1.10.2, etc.
 
-Quick Start
+Pretrained Models
+------
+|Dataset|Link (Google Drive)|
+|------|-----|
+|FaceForensics|https://drive.google.com/file/d/19BlI2XeogcOmPT4MALzqesRfpGu9E8Py/view?usp=share_link|
+|Youtube-dance|https://drive.google.com/file/d/1pFANbb1_kCxIwrMXZUD3NGFd9RKb1fHw/view?usp=share_link|
+
+Demo
+-------
+**FaceForensics**
+1. Install required dependencies. Here we use Python 3.7.10, Pytorch 1.10.2, etc.
+2. Set the paths in the code files if needed. The pretrained model for FaceForensics dataset has released.
+3. Run `python -u demo/demo_face.py`
+
+**Youtube-dance**
+1. Install required dependencies. Here we use Python 3.7.10, Pytorch 1.10.2, etc.
+2. Set the paths in the code files if needed. The pretrained model for Youtube-dance dataset has released.
+3. Run `python -u demo/demo_pose.py`
+
+Note that our models are only trained on less than 200 short videos. So they are still hard to be generalized to *unseen* subjects. The subject videos of example videos we shown are *seen*, which are from training dataset (Driving videos are still unseen). If you want to apply our model to new subject, please do some fine-tuning. This can be achieved by using our training code to train TS-Net on the new subject with a small learning rate. The following section shows a toy example about how to train TS-Net.
+
+Training TS-Net
 ----
 
 The following codes show a toy example about how to train TS-Net.
@@ -82,27 +103,6 @@ model.set_train_input(src_img_list=src_img_batch_list,
 # one training step to update TS-Net
 model.optimize_parameters()
 ```
-
-Pretrained Models
-------
-|Dataset|Link (Google Drive)|
-|------|-----|
-|FaceForensics|https://drive.google.com/file/d/19BlI2XeogcOmPT4MALzqesRfpGu9E8Py/view?usp=share_link|
-|Youtube-dance|https://drive.google.com/file/d/1pFANbb1_kCxIwrMXZUD3NGFd9RKb1fHw/view?usp=share_link|
-
-Demo
--------
-**FaceForensics**
-1. Install required dependencies. Here we use Python 3.7.10, Pytorch 1.10.2, etc.
-2. Set the paths in the code files if needed. The pretrained model for FaceForensics dataset has released.
-3. Run `python -u demo/demo_face.py`
-
-**Youtube-dance**
-1. Install required dependencies. Here we use Python 3.7.10, Pytorch 1.10.2, etc.
-2. Set the paths in the code files if needed. The pretrained model for Youtube-dance dataset has released.
-3. Run `python -u demo/demo_pose.py`
-
-Note that our models are only trained on less than 200 short videos. So they are still hard to be generalized to *unseen* subjects. The subject videos of example videos we shown are *seen*, which are from training dataset (Driving videos are still unseen). If you want to apply our model to new subject, please do some fine-tuning. This can be achieved by using our training code to train TS-Net on the new subject with a small learning rate. 
 
 Citing TS-Net
 ----
