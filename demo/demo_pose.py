@@ -1,8 +1,5 @@
-# testing demo for face dataset
+# testing demo for dace dataset
 import sys
-
-import imageio
-
 sys.path.append("/home/hfn5052/code/WACV23_TSNet")
 import argparse
 import torch
@@ -14,39 +11,47 @@ import os
 import time
 from PIL import Image
 from utils.misc import Logger
-from model.TSNet import TSNet
-from dataset.dataset_video_face import FaceDatasetTest
-from utils.misc import vl2ch
+from model.TSNet_pose import TSNet
+from dataset.dataset_video_pose import PoseDatasetTestVideo
+from utils.misc import vl2ch, vl2im
+import sys
 from copy import deepcopy
 import random
+import imageio
 from tqdm import tqdm
 
 
 BATCH_SIZE = 1
-TYPE = "face"
+TYPE = "pose"
 IMG_MEAN = np.array((101.84807705937696, 112.10832843463207, 111.65973036298041), dtype=np.float32)
-root_dir = '/data/hfn5052/ResVideoGen/wacv/demo-face'   # change to your working directory
-GPU = "1"
+root_dir = '/data/hfn5052/ResVideoGen/wacv/demo-pose'  # change to your working directory
+GPU = "3"
 N_BLOCKS = 4
 N_DOWNSAMPLING = 3
 TRAIN_N_SOURCE = 3
 TEST_N_SOURCE = 3
-MAX_FRAME_NUM = 40
-postfix_pre = "-FS-PS%d-MS%d-D%d-mask-woalign-face" % (N_BLOCKS, TRAIN_N_SOURCE, N_DOWNSAMPLING)
-RESTORE_FROM = "/data/hfn5052/VideoGen/BranchGAN/snapshots" \
-               + postfix_pre + "/BranchGAN_B0015_S063000.pth"  # change to the path to pretrained models
+MAX_FRAME_NUM = 30
+postfix_pre = "-FS-PS%d-MS%d-D%d-mask-pose" % (N_BLOCKS, TRAIN_N_SOURCE, N_DOWNSAMPLING)
+RESTORE_FROM = "/data/hfn5052/VideoGen/BranchGAN_pose/snapshots" \
+               + postfix_pre + "/BranchGAN_B0010_S063000.pth"  # change to the path to pretrained models
 NUM_EPOCH = 900
 if not os.path.exists(RESTORE_FROM):
     print("not existing trained model!")
     exit(-1)
 postfix = postfix_pre + "-S%02d" % (TEST_N_SOURCE)
 
-sub_images_path = "/home/hfn5052/code/WACV23_TSNet/demo/face_examples/images/val024"
-sub_labels_path = "/home/hfn5052/code/WACV23_TSNet/demo/face_examples/labels/val024"
-dri_images_path = "/home/hfn5052/code/WACV23_TSNet/demo/face_examples/images/test114"
-dri_labels_path = "/home/hfn5052/code/WACV23_TSNet/demo/face_examples/labels/test114"
+sub_json_pth = "/home/hfn5052/code/WACV23_TSNet/dataset/json_pose/clean_video_dict.json"
+msk_json_pth = "/home/hfn5052/code/WACV23_TSNet/dataset/json_pose/clean_unseen_video_dict.json"
+label_dir_pth = "/home/hfn5052/code/WACV23_TSNet/demo/dance_example/labels"
+image_dir_pth = "/home/hfn5052/code/WACV23_TSNet/demo/dance_example/images"
+test_pairs = ["110 164"]
+# for how to generate smooth pose labels from original openpose output,
+# please refer to dataset/smooth_pose_keypoint.py
+smooth_label_path = "/home/hfn5052/code/WACV23_TSNet/dataset/json_pose/smooth_openpose"
 
-fix_crop_pos = True
+basic_point_only = False
+remove_face_labels = False
+
 INPUT_SIZE = '256, 256'
 RANDOM_SEED = 1234
 CKPT_DIR = os.path.join(root_dir, 'ckpt_' + format(NUM_EPOCH, "03d") + postfix)
@@ -57,15 +62,12 @@ VID_DIR = os.path.join(CKPT_DIR, "videos")
 os.makedirs(VID_DIR, exist_ok=True)
 LOG_PATH = os.path.join(CKPT_DIR, format(NUM_EPOCH, "03d") + postfix + ".log")
 sys.stdout = Logger(LOG_PATH, sys.stdout)
-
 print(postfix)
 print("RESTORE_FROM:", RESTORE_FROM)
 print("num epoch:", NUM_EPOCH)
-print("fix crop pos:", fix_crop_pos)
 print("max frame num of target video", MAX_FRAME_NUM)
 print("max frame num of source video", MAX_FRAME_NUM)
-print("subject", sub_images_path)
-print("driving", dri_images_path)
+print("test pairs:", test_pairs)
 
 
 def get_arguments():
@@ -115,10 +117,11 @@ def main():
     torch.manual_seed(args.random_seed)
     random.seed(args.random_seed)
 
-    model = TSNet(is_train=False, label_nc=2,
+    model = TSNet(is_train=False, label_nc=25,
                   n_blocks=N_BLOCKS,
                   n_downsampling=N_DOWNSAMPLING,
-                  n_source=TEST_N_SOURCE)
+                  n_source=TEST_N_SOURCE,
+                  use_mask=True, mean=IMG_MEAN)
 
     if os.path.isfile(args.restore_from):
         print("=> loading checkpoint '{}'".format(args.restore_from))
@@ -134,13 +137,16 @@ def main():
 
     model.eval()
 
-    testloader = data.DataLoader(FaceDatasetTest(sub_images_path=sub_images_path,
-                                                 sub_labels_path=sub_labels_path,
-                                                 dri_images_path=dri_images_path,
-                                                 dri_labels_path=dri_labels_path,
-                                                 mean=IMG_MEAN,
-                                                 fix_crop_pos=fix_crop_pos,
-                                                 max_frame_num=MAX_FRAME_NUM),
+    testloader = data.DataLoader(PoseDatasetTestVideo(test_pairs=test_pairs,
+                                                      sub_json_path=sub_json_pth,
+                                                      msk_json_path=msk_json_pth,
+                                                      label_path=label_dir_pth,
+                                                      image_path=image_dir_pth,
+                                                      mean=IMG_MEAN,
+                                                      n_frame_total=MAX_FRAME_NUM,
+                                                      basic_point_only=basic_point_only,
+                                                      remove_face_labels=remove_face_labels,
+                                                      smooth_label_path=smooth_label_path),
                                  batch_size=args.batch_size,
                                  shuffle=False, num_workers=args.num_workers)
 
@@ -183,7 +189,6 @@ def main():
 
             new_im_list = []
             for ind in tqdm(range(bs)):
-
                 model.set_test_input(src_img_list=ref_img_list,
                                      src_lbl_list=ref_lbl_resize_list,
                                      src_bbox_list=ref_bbox_list,
@@ -206,6 +211,12 @@ def main():
                     src_img = np.zeros(shape=src_img.shape, dtype=np.float32)
                 src_img = cv2.cvtColor(src_img, cv2.COLOR_BGR2RGB)
 
+                if ind < src_bs:
+                    src_lbl = src_lbls.data.cpu().numpy().copy()[ind]
+                    src_lbl = vl2im(src_lbl, TYPE)
+                else:
+                    src_lbl = np.zeros(shape=src_lbl.shape, dtype=np.uint8)
+
                 tar_img = tar_imgs.data.cpu().numpy().copy()[ind]
                 tar_img = tar_img.transpose(1, 2, 0)
                 tar_img += IMG_MEAN
@@ -222,11 +233,11 @@ def main():
                 if not os.path.exists(dir_pth):
                     os.makedirs(dir_pth)
                 new_deb_im_file = os.path.join(dir_pth, new_deb_im_name)
-                new_deb_im.save(new_deb_im_file)
+                new_deb_im.save(new_deb_im_file+".png")
                 new_im_list.append(np.asarray(new_deb_im))
                 cnt += 1
 
-            # save video
+            # save videos
             video_pth = os.path.join(VID_DIR, dir_name+".gif")
             imageio.mimsave(video_pth, new_im_list)
 
@@ -234,7 +245,6 @@ def main():
             end = time.time()
 
     print('The total test time is ' + str(batch_time.sum))
-
 
 
 class AverageMeter(object):

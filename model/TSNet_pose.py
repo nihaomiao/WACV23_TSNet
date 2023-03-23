@@ -354,6 +354,9 @@ class TSNet(nn.Module):
             src_img_lbl_fea_norm_reshape = src_img_lbl_fea_norm.view(b, c, h * w)
 
             # using bounding box to reduce computational complexity
+            # currently we only use an "approximate" way to utilize the bounding box for easing the implementation,
+            # i.e., keep the size of feature map but mask other unrelated regions as zero
+            # But a better implementation should directly crop the feature using the bounding box to reduce the size of feature map
             src_bbox_down = F.interpolate(self.src_bbox_list[i], (h, w), mode="nearest")
             src_bbox_down_reshape = src_bbox_down.view(b, 1, h * w)
 
