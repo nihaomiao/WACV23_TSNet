@@ -35,7 +35,7 @@ Pretrained Models
 ------
 |Dataset|Link (Google Drive)|
 |------|-----|
-|FaceForensics|https://drive.google.com/file/d/19BlI2XeogcOmPT4MALzqesRfpGu9E8Py/view?usp=share_link|
+|FaceForensics|https://drive.google.com/file/d/1tKZ0i1z-iEEQjRzXKOZNk5xVYvtxnfTc/view?usp=share_link|
 |Youtube-dance|https://drive.google.com/file/d/1pFANbb1_kCxIwrMXZUD3NGFd9RKb1fHw/view?usp=share_link|
 
 Demo
