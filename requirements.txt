@@ -1,0 +1,11 @@
+imageio==2.9.0
+json_tricks==3.15.5
+matplotlib==3.4.2
+numpy==1.21.6
+opencv_contrib_python==4.5.2.54
+Pillow==9.3.0
+scikit_image==0.18.3
+scipy==1.1.0
+torch==1.10.1+cu102
+torchvision==0.11.2+cu102
+tqdm==4.61.1
