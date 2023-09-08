@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import numpy as np
 from model import networks
 from collections import OrderedDict
 from torchvision import models
@@ -533,9 +534,8 @@ class VGGLoss(nn.Module):
 
     def forward(self, x, y):
         x_vgg, y_vgg = self.vgg(x), self.vgg(y)
-        loss = 0
-        for i in range(len(x_vgg)):
-            loss += self.weights[i] * self.criterion(x_vgg[i], y_vgg[i])
+        loss = np.dot(self.weights[:len(x_vgg)], 
+                      [self.criterion(x_vgg[i], y_vgg[i] for i in range(len(x_vgg))] )
         return loss
 
 
